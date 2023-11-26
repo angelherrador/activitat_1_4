@@ -1,3 +1,4 @@
+import 'package:activitat_1_4/models/zip_code_model.dart';
 import 'package:activitat_1_4/services/zipcode_service.dart';
 import 'package:flutter/material.dart';
 
@@ -13,41 +14,114 @@ class _HomeState extends State<Home> {
   String ?longitude;
   String ?latitude;
   String ?state;
+  String ?postalCode;
+  //String zipCodeInput="23700";
 
-  String zipCodeInput="23700";
+  var zipCodeController = TextEditingController();
+  ZipCode? zipCode;
+
+  void clearText() {
+    zipCodeController.clear();
+  }
 
   @override
   Widget build(BuildContext context) {
+    var screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: AppBar(
-        title:const Text('Postal Code App-'),
-
+        title:const Text('Postal Code App'),
       ),
-      body:
-        Text('City: $city'),
-        floatingActionButton: FloatingActionButton(
-          onPressed: ()
-            async {
-              var zipcode = await ZipCodeService().fetchData("23700");
+      body:Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+                SizedBox(
+                  width: screenWidth*0.8,
+                  child: const Text("Indica el codi postal per trobar la ciutat",
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.black45,)
+                  )
+                ),
+              SizedBox(
+                width:250,
+                child: TextField(
+                  autofocus: true,
+                  onChanged: (zipInput) async {
+                      ZipCode? zipCode = await ZipCodeService().fetchData(zipInput);
 
-              city = zipcode.places.first.placeName;
-              longitude = zipcode.places.first.longitude;
-              latitude = zipcode.places.first.latitude;
-              state = zipcode.places.first.state;
+                      city = zipCode.places.first.placeName;
+                      longitude = zipCode.places.first.longitude;
+                      latitude = zipCode.places.first.latitude;
+                      state = zipCode.places.first.state;
+                      postalCode= zipCode.postCode;
 
-              debugPrint(city);
-              debugPrint(longitude);
-              debugPrint(state);
-              setState(() {});
-            },
+                      debugPrint(city);
+                      debugPrint(longitude);
+                      debugPrint(state);
+                      setState(() {});
+                    },
+                  controller: zipCodeController,
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(Icons.search),
+                    suffixIcon: IconButton(
+                          icon: const Icon(Icons.clear,),
+                          onPressed: zipCodeController.clear,
+                    ),
+                    border: const OutlineInputBorder(),
 
-            child: const Icon(Icons.refresh),
+                  ),
+                  style: const TextStyle(fontSize: 24),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              if (longitude == null)
+                 Text("Codi Postal ${zipCodeController.text} no trobat o no existeix!!"),
+              // if (longitude != null)
+              //   Text('Codi Postal: $postalCode'),
+              if (longitude != null)
+                Text('Ciutat: $city'),
+              if (longitude != null)
+                Text('Comunitat: $state'),
+              if (longitude != null)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: screenWidth*0.1,
+                      child: const Icon(Icons.place),),
+                    SizedBox(
+                        width: screenWidth*0.25,
+                        child: const Text('Coordenades:'),),
+                    SizedBox(
+                      width: screenWidth*0.25,
+                        child: Text('Long: $longitude'),),
+                    SizedBox(
+                      width: screenWidth*0.3,
+                        child:Text('Lat: $latitude'),),
+                  ],
+                ),
+          ]),
         ),
-
+        // floatingActionButton: FloatingActionButton(
+        //   onPressed: ()
+        //     async {
+        //       var zipcode = await ZipCodeService().fetchData("43001");
+        //
+        //       city = zipcode.places.first.placeName;
+        //       longitude = zipcode.places.first.longitude;
+        //       latitude = zipcode.places.first.latitude;
+        //       state = zipcode.places.first.state;
+        //
+        //       debugPrint(city);
+        //       debugPrint(longitude);
+        //       debugPrint(state);
+        //       setState(() {});
+        //     },
+        //
+        //     child: const Icon(Icons.refresh),
+        // ),
     );
   }
 }
-// void getZipCode(zipCodeInput){
-//   ZipCodeService zipCodeService = ZipCodeService();
-//   zipCodeService.methodeWithParam(zipCodeInput);
-// }

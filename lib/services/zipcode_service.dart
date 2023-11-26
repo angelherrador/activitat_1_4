@@ -1,19 +1,23 @@
 import 'package:activitat_1_4/models/zip_code_model.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-
 class ZipCodeService {
-  //static const int param = 43001;
+  late String url;
 
-  // ZipCodeService();
-  // void methodeWithParam(String param) {
-    Future<ZipCode> fetchData(String param) async {
-      var response = await http.get(Uri.parse(
-          'https://api.zippopotam.us/es/$param'));
-      //debugPrint(response.body); //para ver en consola los datos
-      final zipcode = zipCodeFromJson(response.body);
-      return zipcode;
+    Future<ZipCode> fetchData(String zipInput) async {
+      // if (int.tryParse(zipInput) != null) {
+      //   url='https://api.zippopotam.us/es/ct/$zipInput';
+      // } else {
+      //   url='https://api.zippopotam.us/es/$zipInput';
+      // }
+
+      url='https://api.zippopotam.us/es/$zipInput';
+      var response = await http.get(Uri.parse(url));
+
+      //debugPrint(response.body);
+      final zipCode = zipCodeFromJson(response.body);
+      return zipCode;
+
     }
   //}
 }

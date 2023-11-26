@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
             backgroundColor: Colors.indigo,
             centerTitle: true
         ),
+
       ),
       home: const Home(),
     );
