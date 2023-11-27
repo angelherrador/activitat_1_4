@@ -64,7 +64,7 @@ class _HomeState extends State<Home> {
                     },
                   controller: zipCodeController,
                   decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.search),
+                    //prefixIcon: const Icon(Icons.search),
                     suffixIcon: IconButton(
                           icon: const Icon(Icons.clear,),
                           onPressed: zipCodeController.clear,
@@ -76,12 +76,12 @@ class _HomeState extends State<Home> {
                   textAlign: TextAlign.center,
                 ),
               ),
-              if (longitude == null)
+              if (postalCode==null)
                  Text("Codi Postal ${zipCodeController.text} no trobat o no existeix!!"),
-              // if (longitude != null)
-              //   Text('Codi Postal: $postalCode'),
+              if (postalCode != null)
+                Text('Codi Postal: $postalCode'),
               if (longitude != null)
-                Text('Ciutat: $city'),
+                Text('Ciutat: $city', style: TextStyle(fontSize: 24),),
               if (longitude != null)
                 Text('Comunitat: $state'),
               if (longitude != null)
