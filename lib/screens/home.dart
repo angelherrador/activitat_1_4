@@ -1,6 +1,8 @@
+
 import 'package:activitat_1_4/models/zip_code_model.dart';
 import 'package:activitat_1_4/services/zipcode_service.dart';
 import 'package:flutter/material.dart';
+import 'package:activitat_1_4/screens/map.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -10,11 +12,12 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  String city="";
+  String city = "";
   String ?longitude;
   String ?latitude;
   String ?state;
   String ?postalCode;
+
   //String zipCodeInput="23700";
 
   var zipCodeController = TextEditingController();
@@ -28,6 +31,11 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
 
+    // void openGoogleMaps(){
+    //   Navigator.push(
+    //       context,
+    //       MaterialPageRoute(builder: (context) => const MapSituation()));
+    // }
     return Scaffold(
       appBar: AppBar(
         title:const Text('Postal Code App'),
@@ -67,7 +75,7 @@ class _HomeState extends State<Home> {
                     //prefixIcon: const Icon(Icons.search),
                     suffixIcon: IconButton(
                           icon: const Icon(Icons.clear,),
-                          onPressed: zipCodeController.clear,
+                          onPressed: clearText, //zipCodeController.clear,
                     ),
                     border: const OutlineInputBorder(),
 
@@ -81,7 +89,7 @@ class _HomeState extends State<Home> {
               if (postalCode != null)
                 Text('Codi Postal: $postalCode'),
               if (longitude != null)
-                Text('Ciutat: $city', style: TextStyle(fontSize: 24),),
+                Text('Ciutat: $city', style: const TextStyle(fontSize: 24),),
               if (longitude != null)
                 Text('Comunitat: $state'),
               if (longitude != null)
@@ -102,6 +110,15 @@ class _HomeState extends State<Home> {
                         child:Text('Lat: $latitude'),),
                   ],
                 ),
+              ElevatedButton(
+                  onPressed: (){
+                    //openGoogleMaps();
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => MapSituation(city)));
+                  },
+                  child: const Text("Mostrar en Google Maps")
+              ),
           ]),
         ),
         // floatingActionButton: FloatingActionButton(
@@ -125,3 +142,4 @@ class _HomeState extends State<Home> {
     );
   }
 }
+

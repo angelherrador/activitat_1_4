@@ -1,11 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapSituation extends StatelessWidget {
-  const MapSituation({super.key});
+   MapSituation(this.city, {super.key});
 
+  String city;
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(
+          title:const Text('Situation Map'),
+        ),
+      body:
+        Column(
+          children: [
+            Text('Coordenadas: $city', style: TextStyle(fontSize: 20),)
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: (){
+            Navigator.pop(context);
+          },
+
+          child: const Icon(Icons.exit_to_app),
+        ),
+      );
   }
 }
